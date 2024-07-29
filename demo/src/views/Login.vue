@@ -11,7 +11,7 @@
 </template>
 <script>
 import printJs from "print-js"; //导入
-import html2canvas from "html2canvas"; //导入
+import * as html2canvas from "html2canvas"; //导入
 import * as echarts from 'echarts';
 export default {
   name: "HomeView",
