@@ -8,6 +8,7 @@
 <body>
     
 </body>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
     let xhr = new XMLHttpRequest();
     xhr.open('GET','https://www.googletagservices.com/agrp/prod/model_person_country_code_CN_person_region_code_434e.json');
@@ -18,5 +19,38 @@
     fetch('https://www.googletagservices.com/agrp/prod/model_person_country_code_CN_person_region_code_434e.json',{}).then(resp=>{
         console.log('resp',resp);
     })
+    $.ajax({
+        url : 'https://bizapi.csdn.net/cas/abTest',
+        type : 'GET',
+        headers : {
+            "content-type" : "application/json",
+            "access-control-allow-origin" : "*",
+            "Access-Control-Allow-Methods" : "GET, POST, OPTIONS",
+            "Access-Control-Allow-Headers" : "Content-Type",
+        },
+        dataType : 'json',
+        success : (data)=>{
+            console.log('data',data);
+        },
+        error : (err)=>{
+            console.log('err',err);
+        }
+    })
+    fetch('http://192.168.100.184:8081/login',{
+        method : 'POST',
+        headers : {
+            'content-type' : 'application/json',
+        },
+        body : JSON.stringify({
+            name : '1233456',
+            pwd : '123456',
+        })
+    }).then(resp=>{
+        console.log('resp',resp);
+    }).catch(err=>{
+        console.log('err',err);
+    })
+
+
 </script>
 </html>
