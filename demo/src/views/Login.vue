@@ -83,6 +83,13 @@ export default {
           // loading.close();//关闭element-ui的加载遮罩
           // toDataURL 图片格式转成 base64
           let dataURL = canvas.toDataURL("image/png");
+          let link = document.createElement('a');
+          link.text = "下载";
+          link.href = dataURL;
+          let fileName = new Date().toLocaleDateString() + ".png";
+          console.log('fileName',link);
+          link.download = fileName;
+          document.body.appendChild(link);
           //打印
           printJs({
             printable: dataURL,
