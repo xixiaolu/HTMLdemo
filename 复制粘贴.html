@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <input type="text" class="copytext">
+    <button onclick="copyText()">复制</button>
+    <input type="text">
+    <input type="text" title="禁止粘贴" oncopy="return false" onpaste="return false">
+    <input type="text" oncopy="copyfn()" title="禁止复制，给钱">
+</body>
+<script>
+    function copyText() {
+        let text = document.getElementsByClassName('copytext')[0].value;
+        if(navigator.clipboard){
+            navigator.clipboard.writeText(text);
+        }else{
+            var input = document.createElement('input');
+            input.value = text;
+            document.body.appendChild(input);
+            input.select();
+            document.execCommand('copy');
+            document.body.removeChild(input);
+        }
+    }
+    function copyfn(e){
+        e = e || window.event;
+        e.preventDefault();
+        e.clipboardData.setData('text/plain','禁止复制，给钱');
+    }
+</script>
+</html>
