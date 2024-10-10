@@ -17,6 +17,7 @@
     </div>
 </template>
 <script>
+import { sendMsg } from './crossTagMsg';
     export default {
         components : {
 
@@ -35,6 +36,9 @@
                 this.$refs.form.validate((valid) => {
                     if (valid) {
                         console.log('submit!');
+                        let data = new Date(this.form.date);
+                        this.form.date = `${data.getFullYear()}-${data.getMonth() + 1}-${data.getDate()}`;
+                        sendMsg('add',this.form);
                     } else {
                         console.log('error submit!!');
                         return false;

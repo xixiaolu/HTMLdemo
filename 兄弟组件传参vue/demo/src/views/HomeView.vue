@@ -1,7 +1,7 @@
 <template>
   <div class="home">
     <div class="t-a-r">
-      <el-button type="primary" @click="addTableClick">新增</el-button>
+      <el-button type="primary" @click="addTableClick()">新增</el-button>
     </div>
     <el-table
       :data="tableData"
@@ -27,6 +27,11 @@
 </template>
 
 <script>
+import { listenMsg } from './crossTagMsg';
+
+listenMsg((info)=>{
+  console.log(info);
+})
 // @ is an alias to /src
 // import HelloWorld from '@/components/HelloWorld.vue'
 
@@ -58,7 +63,13 @@ export default {
   },
   methods:{
     addTableClick(){
-      window.open("addTable");
+      // this.$router.push({
+      //   path: 'addTable',
+      //   query: {
+      //     name: '123'
+      //   }
+      // });
+      window.open("addTable?name='123'",'_blank');
     }
   },
 }

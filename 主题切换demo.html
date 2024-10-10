@@ -1,59 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Theme Switcher</title>
-    <!-- 浅色主题 CSS 文件 -->
-    <link id="light-theme" rel="stylesheet" href="light-theme.css">
-    <!-- 深色主题 CSS 文件 -->
-    <link id="dark-theme" rel="stylesheet" href="dark-theme.css">
+    <title>Document</title>
 </head>
-
 <body>
-    <div class="container">
-        <h1>Welcome to My Website</h1>
-        <p>This is a sample text.</p>
-        <!-- 添加一个按钮用于切换主题 -->
-        <button id="theme-switcher">Switch Theme</button>
-    </div>
-
-    <script>
-    // 检查本地存储中是否有主题设置
-    const currentTheme = localStorage.getItem('theme');
-
-    // 如果有，应用该主题
-    if (currentTheme) {
-        document.documentElement.setAttribute('data-theme', currentTheme);
-        if (currentTheme === 'dark') {
-            document.getElementById('theme-switcher').textContent = 'Switch to Light Theme';
-        } else {
-            document.getElementById('theme-switcher').textContent = 'Switch to Dark Theme';
-        }
-    } else {
-        // 默认使用浅色主题
-        document.documentElement.setAttribute('data-theme', 'light');
-        document.getElementById('theme-switcher').textContent = 'Switch to Dark Theme';
-    }
-
-    // 切换主题的函数
-    function switchTheme() {
-        const currentTheme = document.documentElement.getAttribute('data-theme');
-        if (currentTheme === 'light') {
-            document.documentElement.setAttribute('data-theme', 'dark');
-            document.getElementById('theme-switcher').textContent = 'Switch to Light Theme';
-            localStorage.setItem('theme', 'dark'); // 保存主题到本地存储
-        } else {
-            document.documentElement.setAttribute('data-theme', 'light');
-            document.getElementById('theme-switcher').textContent = 'Switch to Dark Theme';
-            localStorage.setItem('theme', 'light'); // 保存主题到本地存储
-        }
-    }
-
-    // 给按钮添加点击事件监听器
-    document.getElementById('theme-switcher').addEventListener('click', switchTheme);
-    </script>
+    
 </body>
-
 </html>
