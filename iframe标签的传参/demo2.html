@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div>
+        我是iframe标签里面的信息
+        <button onclick="fn()">按钮</button>
+    </div>
+</body>
+<script>
+    function fn(){
+        window.parent.postMessage({
+            name : '李四',
+            age : '34',
+        },'*')
+    }
+    window.addEventListener('message',e=>{
+        console.log('父页面传到iframe',e.data)
+    })
+</script>
+</html>

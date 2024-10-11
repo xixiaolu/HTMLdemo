@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    我是第一个页面的内容
+    <button onclick="fn()">按钮</button>
+    <iframe src="./demo2.html" frameborder="0"></iframe>
+</body>
+<script>
+    function fn(){
+        let iframe = document.querySelector('iframe')
+        iframe.contentWindow.postMessage({
+            name : '张三',
+            age : '12',
+        },'*')
+    }
+    window.addEventListener('message',function(e){
+        // console.log(e)
+        console.log('iframe传到父页面',e.data)
+    })
+
+</script>
+</html>
