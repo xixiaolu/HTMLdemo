@@ -10,47 +10,65 @@
 </body>
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script>
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET','https://www.googletagservices.com/agrp/prod/model_person_country_code_CN_person_region_code_434e.json');
-    xhr.send();
-    xhr.onreadystatechange = function(){
-        console.log('xhr',xhr);
-    }
-    fetch('https://www.googletagservices.com/agrp/prod/model_person_country_code_CN_person_region_code_434e.json',{}).then(resp=>{
-        console.log('resp',resp);
-    })
-    $.ajax({
-        url : 'https://bizapi.csdn.net/cas/abTest',
-        type : 'GET',
-        headers : {
-            "content-type" : "application/json",
-            "access-control-allow-origin" : "*",
-            "Access-Control-Allow-Methods" : "GET, POST, OPTIONS",
-            "Access-Control-Allow-Headers" : "Content-Type",
-        },
-        dataType : 'json',
-        success : (data)=>{
-            console.log('data',data);
-        },
-        error : (err)=>{
-            console.log('err',err);
-        }
-    })
-    fetch('http://192.168.100.184:8081/login',{
+    // let xhr = new XMLHttpRequest();
+    // xhr.open('GET','https://www.googletagservices.com/agrp/prod/model_person_country_code_CN_person_region_code_434e.json');
+    // xhr.send();
+    // xhr.onreadystatechange = function(){
+    //     console.log('xhr',xhr);
+    // }
+    // fetch('https://www.googletagservices.com/agrp/prod/model_person_country_code_CN_person_region_code_434e.json',{}).then(resp=>{
+    //     console.log('resp',resp);
+    // })
+    // $.ajax({
+    //     url : 'https://bizapi.csdn.net/cas/abTest',
+    //     type : 'GET',
+    //     headers : {
+    //         "content-type" : "application/json",
+    //         "access-control-allow-origin" : "*",
+    //         "Access-Control-Allow-Methods" : "GET, POST, OPTIONS",
+    //         "Access-Control-Allow-Headers" : "Content-Type",
+    //     },
+    //     dataType : 'json',
+    //     success : (data)=>{
+    //         console.log('data',data);
+    //     },
+    //     error : (err)=>{
+    //         console.log('err',err);
+    //     }
+    // })
+    // fetch('http://192.168.100.184:8081/login',{
+    //     method : 'POST',
+    //     headers : {
+    //         'content-type' : 'application/json',
+    //     },
+    //     body : JSON.stringify({
+    //         name : '1233456',
+    //         pwd : '123456',
+    //     })
+    // }).then(resp=>{
+    //     console.log('resp',resp);
+    // }).catch(err=>{
+    //     console.log('err',err);
+    // })
+    fetch('https://id.amap.com/index/sendverify',{
         method : 'POST',
         headers : {
             'content-type' : 'application/json',
+            'Access-Control-Allow-Origin' : '*',
+            
+            'Access-Control-Allow-Headers': 'Content-Type',
         },
         body : JSON.stringify({
-            name : '1233456',
-            pwd : '123456',
+            tel : '17734957875',
+            csessionid : '01ZKi9t-tFkFc-qwVmhSzL9qIR7_1graKaMfVjkc3Ie-zpPq6wWFhrATw0XCNqHBBFtcQWjI11zKBZFmPrSKNJrlzLSJhqM3-RF6wOcd0zzHGlf61ZL-d6LVKp9NdJoX6zNY087BqNr0IErvHXB3RA-l3Nr3yOHegAg7C1IeKq-036wsAkoUHlRkjSsZCdM39B',
+            value: 'pass',
+            
         })
     }).then(resp=>{
         console.log('resp',resp);
     }).catch(err=>{
         console.log('err',err);
     })
-
 
 </script>
 </html>
