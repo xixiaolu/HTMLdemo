@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    // 1. 先定义一个base64的字符表
+    let base64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+    // 2. 定义一个函数，用来将字符串转成base64
+    function base64Encryption(str) {
+        return window.base64Encryption(str,base64,1);
+    }
+    window.base64Encryption()
+    console.log('11111111111',base64Encryption('123456'));
+</script>
+</html>
