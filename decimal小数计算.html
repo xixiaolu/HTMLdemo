@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script src=https://cdn.bootcdn.net/ajax/libs/decimal.js/10.3.1/decimal.js></script>
+<script>
+    // 加法
+    const a = new Decimal(0.1);
+    const b = new Decimal(0.2);
+    const sum = a.plus(b).toString();
+    console.log('111',sum);
+    // 减法
+    const c = new Decimal(0.3);
+    const d = new Decimal(0.2);
+    const sub = c.minus(d).toString();
+    console.log('222',sub);
+    // 乘法
+    const e = new Decimal(0.1);
+    const f = new Decimal(0.2);
+    const mul = e.times(f).toString();
+
+    console.log('333',mul);
+    // 除法
+    const g = new Decimal(0.3);
+    const h = new Decimal(0.2);
+    const div = g.div(h).toString();
+    console.log('444',div);
+
+</script>
+</html>
