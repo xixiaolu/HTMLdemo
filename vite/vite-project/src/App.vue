@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import HelloWorld from './components/HelloWorld.vue'
+// import HelloWorld from './components/HelloWorld.vue'
 const isLoading = ref(true);
 let timeout = setTimeout(() => {
   isLoading.value = false;
@@ -17,7 +17,9 @@ let timeout = setTimeout(() => {
       <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />
     </a>
   </div> -->
-  <HelloWorld msg="Vite + Vue" :isLoading />
+  <!-- <HelloWorld msg="Vite + Vue" :isLoading />  -->
+  <RouterLink to="./about">about页面</RouterLink>
+  <RouterLink to="./login">Login登录页面</RouterLink>
 </template>
 
 <style scoped>

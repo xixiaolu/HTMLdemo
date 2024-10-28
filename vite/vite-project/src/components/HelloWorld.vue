@@ -1,16 +1,20 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { Edit } from '@element-plus/icons-vue'
+import { useRouter } from 'vue-router';
 const {msg,isLoading} = defineProps<{ msg: string,isLoading:boolean}>()
 const count = ref(0)
 const loading = ref(false);
-
+const router = useRouter();
+console.log('router',);router
 const fn2 = ()=>{
-  loading.value = true;
-  let timeout = setTimeout(() => {
-    loading.value = false;
-    clearTimeout(timeout);
-  }, 5000);
+  console.log('router',router);
+  router.push("./about");
+  // loading.value = true;
+  // let timeout = setTimeout(() => {
+  //   loading.value = false;
+  //   clearTimeout(timeout);
+  // }, 5000);
 }
 </script>
 
