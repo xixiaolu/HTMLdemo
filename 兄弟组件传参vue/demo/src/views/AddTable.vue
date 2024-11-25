@@ -16,7 +16,7 @@
         </div>
     </div>
 </template>
-<script>
+<script lang="ts">
 import { sendMsg } from './crossTagMsg';
     export default {
         components : {

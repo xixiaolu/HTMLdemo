@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    fetch("https://ali-weather.showapi.com/area-to-weather-date?area='新绛'",{
+        headers : {
+            'Authorization' : 'APPCODE 784d0d05c62b4cd9b0cba0f8d05d23e3',
+        }
+    }).then(async resp=>{
+        let res = await resp.json();
+        console.log('json',res);
+    }).catch(e=>{
+        console.error('fetch接口报错',e);
+    })
+    
+</script>
+</html>

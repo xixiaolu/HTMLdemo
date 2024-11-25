@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    const Singleton = (function(){
+        let instance = null;
+        class getInstance{
+            
+            constructor(){
+
+            }
+            get names(){
+                return this.names;
+            }
+        }
+        return function (){
+            if(!instance){
+                instance = new getInstance();
+            }
+            return instance;
+        }
+    })();
+    let bus1 = Singleton().call();
+    console.log('bus1',bus1.names);
+    let bus2 = Singleton();
+    console.log('111111111',bus1 === bus2);
+</script>
+</html>
