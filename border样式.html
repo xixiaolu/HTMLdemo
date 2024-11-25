@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .w-h-200{
+            width: 200px;
+            height: 200px;
+            position: relative;
+            &::before{
+                content: "";
+                position: absolute;
+                left: 0;
+                top: 0;
+                right: 0;
+                bottom: 0;
+                border: 2px solid rgba(180, 253, 255, 0.5);
+                animation : clipPath 3s infinite linear;
+            }
+        }
+        @keyframes clipPath {
+            0%,
+            100% {
+                clip-path: inset(0 0 95% 0);
+            }
+            25% {
+                clip-path: inset(0 95% 0 0);
+            }
+            50% {
+                clip-path: inset(95% 0 0 0);
+            }
+            75% {
+                clip-path: inset(0 0 0 95%);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="w-h-200">
+
+    </div>
+</body>
+</html>
