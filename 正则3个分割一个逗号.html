@@ -12,5 +12,15 @@
     const str = "10000000000";
     const a = str.replace(/\B(?=(\d{3})+$)/g,',');
     console.log('str',a);
+
+    function sum(arr,index = 0){
+        if(index === arr.length) {
+            return 0    
+        } else {
+            return arr[index] += sum(arr,index + 1);
+        }
+    }
+    let num = sum([1,2,3]);
+    console.log('num',num);
 </script>
 </html>
