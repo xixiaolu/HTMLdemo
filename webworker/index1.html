@@ -11,11 +11,8 @@
 <script>
     const myWorker = new Worker('./index2.js');
     myWorker.postMessage('hello word');
-    myWorker.onmessage(e=>{
-        console.log('e',e)
-    })
-    myWorker.onmessageerror(e=>{
-        console.log('error',e);
+    myWorker.addEventListener('message',(e)=>{
+        console.log('eeeeeeeeeeeeee',e.data);
     })
 </script>
 </html>

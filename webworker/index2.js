@@ -1,4 +1,4 @@
-self.addEventListener('message',(data=>{
-    console.log('data',data);
+self.addEventListener('message',(e=>{
+    console.log('e',e.data);
     self.postMessage('122434')
 }))
