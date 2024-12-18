@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function* walk(str){
+        let s= "";
+        for(const c of str){
+            if(c !== '-'){
+                s += c;
+            } else {
+                yield Number(s);
+                s = "";
+            }
+        }
+        if(s) {
+            yield Number(s)
+        }
+    }
+    const iter = walk('123-423-324');
+    console.log(iter.next())
+    console.log(iter.next())
+    console.log(iter.next())
+    console.log(iter.next())
+</script>
+</html>
