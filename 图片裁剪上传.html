@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图片裁剪上传</title>
+    <style>
+        #preview {
+            max-width: 100%;
+            max-height: 300px;
+        }
+
+        #canvas {
+            display: none;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>图片裁剪上传</h1>
+    <input type="file" id="imageInput" accept="image/*">
+    <br>
+    <img id="preview" src="#" alt="图片预览">
+    <canvas id="canvas"></canvas>
+    <br>
+    <button id="cropButton">裁剪并上传</button>
+</body>
+<script>
+    // script.js
+
+    document.getElementById('imageInput').addEventListener('change', function (event) {
+        const file = event.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onload = function (e) {
+                const img = document.getElementById('preview');
+                img.src = e.target.result;
+                img.onload = function () {
+                    // 图片加载完成后显示裁剪区域
+                    const canvas = document.getElementById('canvas');
+                    const ctx = canvas.getContext('2d');
+                    canvas.width = img.width;
+                    canvas.height = img.height;
+                    ctx.drawImage(img, 0, 0, img.width, img.height);
+                };
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    document.getElementById('cropButton').addEventListener('click', function () {
+        const canvas = document.getElementById('canvas');
+        const img = document.getElementById('preview');
+
+        // 假设裁剪区域为图片的中心部分
+        const cropWidth = 200;
+        const cropHeight = 200;
+        const cropX = (img.width - cropWidth) / 2;
+        const cropY = (img.height - cropHeight) / 2;
+
+        // 创建一个新的canvas来存储裁剪后的图片
+        const croppedCanvas = document.createElement('canvas');
+        const croppedCtx = croppedCanvas.getContext('2d');
+        croppedCanvas.width = cropWidth;
+        croppedCanvas.height = cropHeight;
+        croppedCtx.drawImage(img, cropX, cropY, cropWidth, cropHeight, 0, 0, cropWidth, cropHeight);
+
+        // 将裁剪后的图片转换为Blob对象
+        croppedCanvas.toBlob(function (blob) {
+            // 创建一个FormData对象并添加裁剪后的图片
+            const formData = new FormData();
+            formData.append('file', blob, 'cropped-image.png');
+
+            // 模拟上传操作
+            fetch('https://example.com/upload', {
+                method: 'POST',
+                body: formData
+            })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('上传成功:', data);
+                })
+                .catch(error => {
+                    console.error('上传失败:', error);
+                });
+        }, 'image/png');
+    });
+</script>
+
+</html>
