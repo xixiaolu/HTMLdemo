@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        .container {
+            width: 300px;
+            margin: 50px auto;
+            text-align: center;
+        }
+
+        .wave-progress {
+            width: 200px;
+            height: 200px;
+            border: 6px solid #f0f0f0;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            background: #fff;
+        }
+
+        .wave {
+            position: absolute;
+            width: 240%;
+            height: 240%;
+            left: -70%;
+            background: #41c4f8;
+            border-radius: 40%;
+            animation: wave 8s linear infinite;
+            transform-origin: 50% 48%;
+            transition: top 0.3s ease;
+            top: var(--wave-top, 150px);
+        }
+
+        @keyframes wave {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 32px;
+            color: #333;
+            font-family: Arial;
+            z-index: 2;
+        }
+
+        input[type="range"] {
+            width: 200px;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="wave-progress">
+            <div class="wave"></div>
+            <div class="percentage">0%</div>
+        </div>
+        <input type="range" min="0" max="100" value="0">
+    </div>
+
+    <script>
+        const range = document.querySelector('input');
+        const wave = document.querySelector('.wave');
+        const percentage = document.querySelector('.percentage');
+
+        range.addEventListener('input', (e) => {
+            const value = 100 - e.target.value;
+            wave.style.setProperty('--wave-top', `${value}%`);
+            percentage.textContent = `${e.target.value}%`;
+        });
+    </script>
+</body>
+</html>
