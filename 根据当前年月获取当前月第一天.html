@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        th, td {
+            border: 1px solid #000;
+            text-align: center;
+            padding: 10px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+        .empty {
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="fnBtn()">点我</button>
+    <p id="result"></p>
+    <div id="calendar"></div>
+</body>
+<script>
+    function getMonthInfo(yearMonth) {
+        const [year, month] = yearMonth.split('-').map(Number);
+        const firstDay = new Date(year, month - 1, 1);
+        const daysInMonth = new Date(year, month, 0).getDate();
+        const daysOfWeek = ['星期日', '星期一', '星期二', '星期三', '星期四', '星期五', '星期六'];
+        const firstDayOfWeek = daysOfWeek[firstDay.getDay()];
+
+        return {
+            firstDayOfWeek,
+            daysInMonth,
+            firstDay
+        };
+    }
+
+    function generateCalendar(yearMonth) {
+        const { firstDay, daysInMonth } = getMonthInfo(yearMonth);
+        const firstDayIndex = firstDay.getDay();
+        let calendarHTML = '<table><tr>';
+        const daysOfWeek = ['日', '一', '二', '三', '四', '五', '六'];
+
+        // 表头
+        for (let day of daysOfWeek) {
+            calendarHTML += `<th>${day}</th>`;
+        }
+        calendarHTML += '</tr><tr>';
+
+        // 空白单元格
+        for (let i = 0; i < firstDayIndex; i++) {
+            calendarHTML += '<td class="empty"></td>';
+        }
+
+        // 日期单元格
+        for (let day = 1; day <= daysInMonth; day++) {
+            if ((firstDayIndex + day - 1) % 7 === 0 && day !== 1) {
+                calendarHTML += '</tr><tr>';
+            }
+            calendarHTML += `<td>${day}</td>`;
+        }
+
+        // 填充剩余的空白单元格
+        const remainingCells = (7 - (firstDayIndex + daysInMonth) % 7) % 7;
+        for (let i = 0; i < remainingCells; i++) {
+            calendarHTML += '<td class="empty"></td>';
+        }
+
+        calendarHTML += '</tr></table>';
+        return calendarHTML;
+    }
+
+    function fnBtn() {
+        const yearMonth = '2025-04'; // 你可以根据需要修改这个值
+        const result = getMonthInfo(yearMonth);
+        document.getElementById('result').innerText = `当前月的第一天是${result.firstDayOfWeek}，当月有${result.daysInMonth}天。`;
+        document.getElementById('calendar').innerHTML = generateCalendar(yearMonth);
+    }
+</script>
+</html>
