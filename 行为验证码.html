@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>行为验证码</title>
+    <style>
+        #slider-container {
+            width: 300px;
+            height: 50px;
+            background-color: #f2f2f2;
+            border: 1px solid #ccc;
+            position: relative;
+            user-select: none;
+        }
+
+        #slider {
+            width: 50px;
+            height: 100%;
+            background-color: #4caf50;
+            position: absolute;
+            left: 0;
+            cursor: pointer;
+            text-align: center;
+            line-height: 50px;
+            color: white;
+            font-weight: bold;
+        }
+
+        #slider-text {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            line-height: 50px;
+            color: #999;
+        }
+
+        #result {
+            margin-top: 20px;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <h1>行为验证码示例</h1>
+    <div id="slider-container">
+        <div id="slider">→</div>
+        <div id="slider-text">请拖动滑块完成验证</div>
+    </div>
+    <p id="result"></p>
+
+    <script>
+        const slider = document.getElementById('slider');
+        const sliderContainer = document.getElementById('slider-container');
+        const sliderText = document.getElementById('slider-text');
+        const result = document.getElementById('result');
+
+        let isDragging = false;
+        let startX = 0;
+        let offsetX = 0;
+        let startTime = 0;
+        let behaviorData = []; // 用于记录用户滑动行为
+
+        slider.addEventListener('mousedown', (e) => {
+            isDragging = true;
+            startX = e.clientX;
+            offsetX = slider.offsetLeft;
+            startTime = Date.now();
+            behaviorData = []; // 清空行为数据
+        });
+
+        document.addEventListener('mousemove', (e) => {
+            if (!isDragging) return;
+
+            const currentX = e.clientX;
+            const moveX = Math.max(0, Math.min(currentX - startX + offsetX, sliderContainer.offsetWidth - slider.offsetWidth));
+            slider.style.left = moveX + 'px';
+
+            // 记录滑动行为
+            behaviorData.push({
+                time: Date.now() - startTime,
+                position: moveX
+            });
+
+            if (moveX === sliderContainer.offsetWidth - slider.offsetWidth) {
+                sliderText.textContent = '验证成功';
+                sliderText.style.color = 'green';
+                isDragging = false;
+
+                // 输出行为数据
+                console.log('滑动行为数据:', behaviorData);
+                result.textContent = '验证成功！行为数据已记录。';
+            }
+        });
+
+        document.addEventListener('mouseup', () => {
+            if (!isDragging) return;
+
+            if (slider.offsetLeft < sliderContainer.offsetWidth - slider.offsetWidth) {
+                slider.style.left = '0px';
+                sliderText.textContent = '请拖动滑块完成验证';
+                sliderText.style.color = '#999';
+                result.textContent = '验证失败，请重试！';
+            }
+
+            isDragging = false;
+        });
+    </script>
+</body>
+</html>
