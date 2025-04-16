@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>图形验证</title>
+    <style>
+        #captcha {
+            border: 1px solid #ccc;
+            display: inline-block;
+            cursor: pointer;
+        }
+        #refresh {
+            margin-left: 10px;
+            cursor: pointer;
+            color: blue;
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>图形验证码示例</h1>
+    <canvas id="captcha" width="120" height="40" title="点击刷新"></canvas>
+    <span id="refresh">刷新</span>
+    <br><br>
+    <input type="text" id="input" placeholder="请输入验证码">
+    <button onclick="validateCaptcha()">验证</button>
+    <p id="result"></p>
+
+    <script>
+        let captchaText = '';
+
+        // 生成随机验证码
+        function generateCaptcha() {
+            debugger;
+            const canvas = document.getElementById('captcha');
+            const ctx = canvas.getContext('2d');
+            captchaText = '';
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // 绘制背景
+            ctx.fillStyle = '#f2f2f2';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            // 生成随机字符
+            const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+            for (let i = 0; i < 5; i++) {
+                captchaText += chars.charAt(Math.floor(Math.random() * chars.length));
+            }
+
+            // 绘制字符
+            ctx.font = '24px Arial';
+            ctx.fillStyle = '#333';
+            for (let i = 0; i < captchaText.length; i++) {
+                const x = 20 + i * 20;
+                const y = 30 + Math.random() * 5;
+                const angle = Math.random() * 0.4 - 0.2; // 随机旋转角度
+                ctx.save();
+                ctx.translate(x, y);
+                ctx.rotate(angle);
+                ctx.fillText(captchaText[i], 0, 0);
+                ctx.restore();
+            }
+
+            // 添加干扰线
+            for (let i = 0; i < 5; i++) {
+                ctx.strokeStyle = '#ccc';
+                ctx.beginPath();
+                ctx.moveTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.lineTo(Math.random() * canvas.width, Math.random() * canvas.height);
+                ctx.stroke();
+            }
+        }
+
+        // 验证输入
+        function validateCaptcha() {
+            const input = document.getElementById('input').value;
+            const result = document.getElementById('result');
+            if (input === captchaText) {
+                result.textContent = '验证成功！';
+                result.style.color = 'green';
+            } else {
+                result.textContent = '验证码错误，请重试！';
+                result.style.color = 'red';
+            }
+        }
+
+        // 初始化验证码
+        document.getElementById('captcha').addEventListener('click', generateCaptcha);
+        document.getElementById('refresh').addEventListener('click', generateCaptcha);
+        generateCaptcha();
+    </script>
+</body>
+</html>
