@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let p = new Proxy({}, {
+        get: function(target, prop) {
+            console.log(`Getting ${prop}`);
+            return target[prop];
+        },
+        set: function(target, prop, value) {
+            console.log(`Setting ${prop} to ${value}`);
+            target[prop] = value;
+            return true;
+        }
+    });
+    p.name = 'John'; // Setting name to John
+</script>
+</html>

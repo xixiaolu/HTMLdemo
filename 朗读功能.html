@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Speech Synthesis Example</title>
+    <style>
+        .none{
+            display: none;
+        }
+        .show{
+            display: block;
+        }
+    </style>
+</head>
+<body>
+    <!-- <input type="text" id="textToRead" placeholder="Enter text to read"> -->
+    <button onclick="speak()" class="none">Read</button>
+    <div id="text"></div>
+</body>
+<script>
+    function getText(){
+        fetch('https://bookapi.zongheng.com/api/chapter/getChapterList', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                bookId: 1379211, // Replace with your book ID
+                // chapterId: 789012 // Replace with your chapter ID
+            })
+        }).then(response => {
+            if (!response.ok) {
+                throw new Error('Network response was not ok ' + response.statusText);
+            }
+            return response.json();
+        }).then(data => {
+            // let text = "";
+            try {
+                let dom = document.getElementById('text');
+                for(let i = 0 ; i < data.result.chapterList[0].chapterViewList.length; i++){
+                    let h1 = document.createElement('h1');
+                    h1.innerText += `${data.result.chapterList[0].chapterViewList[i].chapterName}`;
+                    dom.append(h1);
+                }
+                document.getElementsByClassName('none')[0].setAttribute('class','block')
+            } catch (error) {
+                console.error('Error parsing JSON:', error);
+            }
+        }).catch(error => {
+            console.error('There has been a problem with your fetch operation:', error);
+        });
+    }
+    function speak() {
+        const msg = new SpeechSynthesisUtterance(document.getElementById('text').innerText);
+        msg.lang = 'zh-CN'; // Set the language to Chinese
+        window.speechSynthesis.speak(msg);
+    }
+    getText();
+</script>
+</html>
