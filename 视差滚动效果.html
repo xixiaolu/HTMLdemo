@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>视差滚动效果</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .parallax {
+            position: relative;
+            height: 400px;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            color: white;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+        }
+
+        .content {
+            padding: 20px;
+            text-align: center;
+            font-size: 1.2em;
+        }
+
+        .parallax-title {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 图片 1 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 1</div>
+    </div>
+    <div class="content">这是图片 1 的描述内容。</div>
+
+    <!-- 图片 2 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 2</div>
+    </div>
+    <div class="content">这是图片 2 的描述内容。</div>
+
+    <!-- 图片 3 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 3</div>
+    </div>
+    <div class="content">这是图片 3 的描述内容。</div>
+
+    <!-- 图片 4 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 4</div>
+    </div>
+    <div class="content">这是图片 4 的描述内容。</div>
+
+    <!-- 图片 5 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 5</div>
+    </div>
+    <div class="content">这是图片 5 的描述内容。</div>
+
+    <!-- 图片 6 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 6</div>
+    </div>
+    <div class="content">这是图片 6 的描述内容。</div>
+
+    <!-- 图片 7 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 7</div>
+    </div>
+    <div class="content">这是图片 7 的描述内容。</div>
+
+    <!-- 图片 8 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 8</div>
+    </div>
+    <div class="content">这是图片 8 的描述内容。</div>
+
+    <!-- 图片 9 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 9</div>
+    </div>
+    <div class="content">这是图片 9 的描述内容。</div>
+
+    <!-- 图片 10 -->
+    <div class="parallax" style="background-image: url('https://picsum.photos/600/400');">
+        <div class="parallax-title">图片标题 10</div>
+    </div>
+    <div class="content">这是图片 10 的描述内容。</div>
+</body>
+</html>

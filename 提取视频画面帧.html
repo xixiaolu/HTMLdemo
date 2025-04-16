@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!-- 仅对mp4文件生效 -->
+    <input type="file" name="" id="">
+</body>
+<script>
+    const input = document.querySelector('input[type="file"]');
+    input.addEventListener('change',async e=>{
+        const file = e.target.files[0];
+        for(let i = 0 ; i< 10;i++) {
+            const data = await captureFrame(file,i);
+            const img = document.createElement('img');
+            img.src = data.url;
+            document.body.appendChild(img);
+        }
+    })
+    function captureFrame(file,time) {
+        return new Promise( resolve =>{
+            // 拿到file对象，通过volid标签画到canvas中
+            const vdo = document.createElement('video');
+            vdo.autoplay = true;  // 自动播放
+            vdo.muted = true;  // 静音播放
+            vdo.currentTime = time;  // 设置当前时间
+            vdo.src = URL.createObjectURL(file);
+            vdo.oncanplay = ()=>{
+                // 创建canvas元素
+                const cvs = document.createElement('canvas');
+                // 获取canvas的上下文
+                const ctx = cvs.getContext('2d');
+                cvs.width = vdo.videoWidth;
+                cvs.height = vdo.videoHeight;
+                // 绘制视频帧到canvas中
+                ctx.drawImage(vdo, 0, 0, cvs.width, cvs.height);
+                document.body.appendChild(cvs);
+                // 将canvas转换为blob对象
+                cvs.toBlob((blob)=>{
+                    const url = URL.createObjectURL(blob);
+                    resolve({
+                        url : url,
+                        blob : blob,
+                    })
+                });
+            }
+        })
+    }
+</script>
+</html>
