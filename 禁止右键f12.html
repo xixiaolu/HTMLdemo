@@ -3,35 +3,32 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>禁止右键和F12</title>
     <style>
-        .box{
-            width: 120px;
-            height: 22px;
-            font-family: PingFangSC, PingFang SC;
-            font-weight: 600;
-            font-size: 24px;
-            color: #4680D3;
-            line-height: 22px;
-            text-align: left;
-            font-style: normal;
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
         }
     </style>
 </head>
 <body>
-    
+    <h1>禁止右键和 F12 示例</h1>
+    <p>尝试右键或按 F12，会被阻止。</p>
 </body>
 <script>
-    document.addEventListener('contextmenu',(e)=>{
+    // 禁止右键菜单
+    document.addEventListener('contextmenu', (e) => {
         e.preventDefault();
-    },false)
-    document.addEventListener('keyup',(e=>{
-        console.log('e',e)
-        if(e.ctrlKey || e.keyCode) {
-            e.stopPropagation();
+        alert('右键已被禁用！');
+    });
+
+    // 禁止 F12 和其他开发者工具快捷键
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && e.key === 'I') || (e.ctrlKey && e.key === 'U')) {
             e.preventDefault();
+            alert('开发者工具已被禁用！');
         }
-    }))
-    // /^\d+(\.\d{1,2})?$/;
+    });
 </script>
 </html>
