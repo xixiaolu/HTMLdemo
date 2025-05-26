@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .list{
+            height: 300px;
+            display: grid;
+            grid-template-columns: repeat(5,1fr);
+            gap: 20px;
+        }
+        .list-item{
+            background-color: aqua;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .moving{
+            opacity: 0.5; /* 设置拖拽元素的透明度 */
+            filter: blur(2px); /* 设置拖拽元素的模糊效果 */
+        }
+    </style>
+</head>
+<body>
+    <div class="list" draggable="true">
+        <div class="list-item" draggable = "true">1</div>
+        <div class="list-item" draggable = "true">2</div>
+        <div class="list-item" draggable = "true">3</div>
+        <div class="list-item" draggable = "true">4</div>
+        <div class="list-item" draggable = "true">5</div>
+        <div class="list-item" draggable = "true">6</div>
+        <div class="list-item" draggable = "true">7</div>
+        <div class="list-item" draggable = "true">8</div>
+        <div class="list-item" draggable = "true">9</div>
+        <div class="list-item" draggable = "true">10</div>
+        <div class="list-item" draggable = "true">11</div>
+        <div class="list-item" draggable = "true">12</div>
+    </div>
+</body>
+<script>
+    const list = document.querySelector('.list'); // 获取列表元素
+    let source = null;
+    let target = null;
+    // 拖拽开始
+    list.ondragstart = e =>{
+        source = e.target; // 获取拖拽的元素
+        let out1 = setTimeout(() => {
+            // 设置拖拽元素的样式
+            source.classList.add('moving');
+            clearTimeout(out1);
+        }, 0);
+        
+    }
+    // 被覆盖的div
+    list.ondragenter = e =>{
+        if(!source) return; // 如果没有拖拽元素，直接返回
+        target = e.target; // 获取被覆盖的元素
+    }
+    // 拖拽结束
+    list.ondragend = e =>{
+        source.classList.remove('moving'); // 移除拖拽元素的样式
+        if(!target || source === target) return; // 如果没有被覆盖的元素，或者拖拽元素和被覆盖元素相同，直接返回
+        const sourceIndex = Array.from(list.children).indexOf(source); // 获取拖拽元素的索引
+        const targetIndex = Array.from(list.children).indexOf(target); // 获取被覆盖元素的索引
+        // 交换拖拽元素和被覆盖元素的位置
+        if(sourceIndex < targetIndex){
+            list.insertBefore(source, target.nextSibling); // 如果拖拽元素在被覆盖元素前面，插入到被覆盖元素后面
+        }else{
+            list.insertBefore(source, target); // 如果拖拽元素在被覆盖元素后面，插入到被覆盖元素前面
+        }
+    }
+</script>
+</html>
