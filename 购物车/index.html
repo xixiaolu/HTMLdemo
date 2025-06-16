@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .goods-item{
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 20px;
+        }
+        .goods-pic{
+            width: 100px;
+            height: 100px;
+        }
+        .goods-desc{
+            font-size: 12px;
+        }
+        .goods-sell{
+            color: #ccc;
+            font-size: 12px;
+        }
+        .goods-confirm{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            width: 200px;
+        }
+        .goods-price{
+            color: #0a39e3ad;
+        }
+        .goods-btns{
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+        .i-jianhao{
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: white;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .i-jiahao{
+            display: block;
+            width: 15px;
+            height: 15px;
+            background: #3c3ca1;
+            border-radius: 50%;
+            border: 1px solid #ccc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="goods-list">
+        
+    </div>
+    <footer>
+        <div class="delivery-price">
+            <span>配送费</span>
+            <span class="delivery-price-value">￥0.00</span>
+        </div>
+        <div class="footer-pay">
+            <a href="">去结算</a>
+            <span>还剩￥0元起送</span>
+        </div>
+        <div class="footer-car-total">
+            <span>合计</span>
+            <span>￥0.00</span>
+        </div>
+    </footer>
+</body>
+<script src="./data.js"></script>
+<script src="./index.js"></script>
+</html>
