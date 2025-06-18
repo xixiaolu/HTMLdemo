@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    function setupWebsocket(url,onMoeeageCallback,onErrorCallback,onCloseCallback,onOpenCallback){
+        const socket = new WebSocket(url);
+        socket.onopen = (event) => {
+            // 链接成功后执行此函数
+            console.log('WebSocket connection opened:', event);
+            if (onOpenCallback) {
+                onOpenCallback(event);
+            }
+            // 链接建立后可以发送数据
+        }
+        socket.onmessage = (event) =>{
+            // 服务器发送过来消息后的回调 event.data 是接收到的消息
+            console.log('WebSocket message received:', event.data);
+            if (onMoeeageCallback) {
+                onMoeeageCallback(event.data);
+            }
+        }
+        socket.onerror = (event) => {
+            console.error('WebSocket error:', event);
+            if(onErrorCallback) {
+                onErrorCallback(event);
+            }
+        }
+
+        socket.onlose = (event) =>{
+            console.log('WebSocket connection closed:', event);
+            if(onCloseCallback) {
+                onCloseCallback(event);
+            }
+        }
+        return socket;
+    }
+</script>
+</html>

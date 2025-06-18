@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * 短轮询  interval秒内请求一次  重复请求
+     * @param {string} url 请求的URL
+     * @param {number} interval 间隔时间（毫秒）
+     * @param {function} callback 回调函数，处理响应数据
+    */
+    function shortPoll(url,interval,callback){
+        const requestData = ()=>{
+            fetch(url)
+            .then(responce=>{
+                if(!responce.ok){
+                    throw new Error(`HTTP error! status: ${responce.status}`);
+                }
+            })
+            .then(data=>{
+                callback(data);
+            })
+            .catch(error=>{
+                console.error('轮询请求出错', error);
+            })
+            .finally(()=>{
+                // 无论请求成功还是失败，都会在指定间隔后重新发起请求
+                setTimeout(requestData, interval);
+            })
+        }
+        requestData();
+    }
+</script>
+</html>

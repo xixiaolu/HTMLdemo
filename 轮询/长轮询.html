@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    /**
+     * 长轮询  轮询请求，直到服务器响应数据或超时
+     * @param {string} url 请求的URL
+     * @param {function} callback 回调函数，处理响应数据
+     */
+    function longPoll(url,callback){
+        const requestData = () =>{
+            fetch(url,{singal : AbortSignal.timeout(30000)}) // 设置超时时间为30秒
+            .then(responce=>{
+                if(!responce.ok){
+                    throw new Error(`HTTP error! status: ${responce.status}`);
+                }
+            })
+            .then(data=>{
+                callback(data);
+            })
+            .catch(error=>{
+                if (error.name === 'AbortError') {
+                    console.error('请求超时，重新发起请求');
+                } else {
+                    console.error('轮询请求出错', error);
+                }
+            })
+            .finally(()=>{
+                // 无论请求成功还是失败，都会重新发起请求
+                requestData();
+            })
+        }
+        requestData();
+    }
+</script>
+</html>
