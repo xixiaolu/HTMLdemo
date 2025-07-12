@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    const msg = new SpeechSynthesisUtterance('大家好');
+    msg.lang = 'zh-CN';  // 设置语言
+    // msg.voice = window.speechSynthesis.getVoices().find(voice => voice.lang === 'zh-CN'); // 获取中文语音
+    msg.pitch = 10; // 音调
+    msg.volume = 10; // 音量
+    msg.rate = 2; // 语速   
+    window.speechSynthesis.speak(msg);
+</script>
+</html>
