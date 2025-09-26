@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>原生图片放大镜效果</title>
+    <style>
+        #small {
+            width: 400px;
+            height: 250px;
+            position: relative;
+            border: 1px solid #ccc;
+            margin: 40px;
+            display: inline-block;
+        }
+
+        #small img {
+            width: 100%;
+            height: 100%;
+            display: block;
+        }
+
+        #mask {
+            width: 100px;
+            height: 100px;
+            background: rgba(0, 0, 0, 0.3);
+            position: absolute;
+            top: 0;
+            left: 0;
+            display: none;
+            pointer-events: none;
+        }
+
+        #big {
+            width: 200px;
+            height: 200px;
+            border: 1px solid #007aff;
+            overflow: hidden;
+            position: absolute;
+            left: 460px;
+            top: 40px;
+            display: none;
+        }
+
+        #big img {
+            position: absolute;
+            width: 800px;
+            /* 放大倍数=大图宽/小图宽=2 */
+            height: 500px;
+            left: 0;
+            top: 0;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="small">
+        <img id="smallImg" src="./260.png" alt="">
+        <div id="mask"></div>
+    </div>
+    <div id="big">
+        <img id="bigImg" src="./260.png" alt="">
+    </div>
+    <script>
+        const small = document.getElementById('small');
+        const mask = document.getElementById('mask');
+        const big = document.getElementById('big');
+        const bigImg = document.getElementById('bigImg');
+
+        small.addEventListener('mouseenter', function () {
+            mask.style.display = 'block';
+            big.style.display = 'block';
+        });
+        small.addEventListener('mouseleave', function () {
+            mask.style.display = 'none';
+            big.style.display = 'none';
+        });
+        small.addEventListener('mousemove', function (e) {
+            const rect = small.getBoundingClientRect();
+            let x = e.clientX - rect.left - mask.offsetWidth / 2;
+            let y = e.clientY - rect.top - mask.offsetHeight / 2;
+            // 边界判断
+            x = Math.max(0, Math.min(x, small.offsetWidth - mask.offsetWidth));
+            y = Math.max(0, Math.min(y, small.offsetHeight - mask.offsetHeight));
+            mask.style.left = x + 'px';
+            mask.style.top = y + 'px';
+            // 计算大图偏移
+            const scale = bigImg.offsetWidth / small.offsetWidth;
+            bigImg.style.left = -x * scale + 'px';
+            bigImg.style.top = -y * scale + 'px';
+        });
+    </script>
+</body>
+
+</html>

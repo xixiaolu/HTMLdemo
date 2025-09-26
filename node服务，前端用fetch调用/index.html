@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    const proxy = 'http://localhost:3000';
+    fetch(`${proxy}/api/greet`).then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
+    
+    fetch(`${proxy}/api/getUserInfo`, {
+        method: 'POST',
+        headers : {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({ name: 'John' }),
+    }).then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+
+    fetch(`${proxy}/api/getImage?imageName=image.jpg`).then(response => response.json())
+    .then(data => console.log(data))
+    .catch(error => console.error('Error:', error));
+</script>
+</html>

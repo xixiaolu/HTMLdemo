@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+    let ws = new WebSocket('ws://localhost:8080');
+    ws.onopen = (e)=>{
+        console.log('连接成功');
+        ws.send('2222');  // 发送消息到服务器
+    }
+    ws.onmessage = (e)=>{
+        console.log('收到服务器消息:', e.data);
+    }
+    ws.onerror = (e)=>{
+        console.log('连接失败', e);
+    }
+    ws.onclose = (e)=>{
+        console.log('连接关闭', e);
+    }
+    // 当页签关闭时，关闭连接
+    window.onbeforeunload = (e)=>{
+        ws.close();
+    }
+</script>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>贷款信息界面</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="loan-info-container">
+        <div class="form-row">
+            <label for="applyDate">*申请日期:</label>
+            <input type="text" id="applyDate" />
+            <label for="serialNo">流水号:</label>
+            <input type="text" id="serialNo" />
+            <label for="disposalNo">处置编号:</label>
+            <input type="text" id="disposalNo" />
+        </div>
+        <div class="form-row">
+            <label for="contractNo">*合同编号:</label>
+            <input type="text" id="contractNo" />
+            <label for="customerNo">*客户号:</label>
+            <input type="text" id="customerNo" />
+            <label for="customerName">*客户名称:</label>
+            <input type="text" id="customerName" />
+        </div>
+        <div class="form-row">
+            <label for="productName">*产品名称:</label>
+            <input type="text" id="productName" />
+            <label for="guaranteeType">*主担保方式:</label>
+            <input type="text" id="guaranteeType" />
+            <label for="riskCategory">*风险分类:</label>
+            <input type="text" id="riskCategory" />
+        </div>
+        <div class="form-row">
+            <label for="loanAmount">贷款金额(元):</label>
+            <input type="text" id="loanAmount" />
+            <label for="loanBalance">贷款余额(元):</label>
+            <input type="text" id="loanBalance" />
+            <label for="interestRate">利率(‰):</label>
+            <input type="text" id="interestRate" />
+        </div>
+        <div class="form-row">
+            <label for="loanStartDate">起贷日期:</label>
+            <input type="text" id="loanStartDate" />
+            <label for="loanEndDate">止贷日期:</label>
+            <input type="text" id="loanEndDate" />
+            <label for="collectionMethod">*清收方式:</label>
+            <select id="collectionMethod">
+                <option value="">请选择</option>
+                <option value="method1">方式一</option>
+                <option value="method2">方式二</option>
+            </select>
+        </div>
+        <div class="form-row">
+            <label for="operator">*经办人:</label>
+            <input type="text" id="operator" />
+            <label for="operatorOrg">*经办机构:</label>
+            <input type="text" id="operatorOrg" />
+        </div>
+        <div class="form-row">
+            <label for="description">*情况说明:</label>
+            <textarea id="description" rows="4"></textarea>
+        </div>
+        <div class="form-row">
+            <label>情况说明报告:</label>
+            <button id="browseBtn" type="button">+ 浏览</button>
+        </div>
+        <h3>借款人情况说明列表</h3>
+        <table id="borrowerTable">
+            <thead>
+                <tr>
+                    <th>客户号</< /th>
+                    <th>客户名称</< /th>
+                    <th>操作</< /th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 数据将通过 JS 动态插入 -->
+            </tbody>
+        </table>
+        <h3>共同借款人情况说明列表</h3>
+        <p class="red-text">(如有共同借款人, 请新增完善共同借款人相关信息! )</p>
+        <button id="addBtn" type="button">新增</button>
+    </div>
+</body>
+
+</html>
+<script src="./script.js"></script>
