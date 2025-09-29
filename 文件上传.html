@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container {
+            width: 300px;
+            height: 300px;
+            border: 1px solid #000;
+            overflow: auto;
+        }
+    </style>
+</head>
+<body>
+    <!-- 上传文件 -->
+    <input type="file" multiple />
+    <!-- 上传文件夹 -->
+    <input type="file" webkitdirectory mozdirectory odirectory />
+    <div class="container"></div>
+</body>
+<script>
+    const div = document.querySelector('.container');
+    // 拖拽进入
+    div.ondragnter = (e)=>{
+        e.preventDefault();
+    }
+    // 拖拽进行中
+    div.ondragover = (e)=>{
+        e.preventDefault();
+    }
+    // 拖拽结束
+    div.ondrop = (e)=>{
+        e.preventDefault();
+        const items = e.dataTransfer.items;
+        for(const item of items){
+            const entry = item.webkitGetAsEntry();
+            if(entry.isDirectory){
+                console.log('文件夹', entry.fuillPath);
+                const reader = entry.createReader();
+                reader.readEntries(entries=>{
+                    console.log(entries);
+                    // 递归处理子项
+                    for(const subEntry of entries){
+                        if(subEntry.isDirectory){
+                            console.log('子文件夹', subEntry.fuillPath);
+                        } else {
+                            console.log('子文件', subEntry.fuillPath);
+                        }
+                    }
+                })
+            } else {
+                console.log('文件', entry.fuillPath);
+                entry.file(file=>{
+                    console.log(file);
+                })
+            }
+        }
+    }
+</script>
+</html>
