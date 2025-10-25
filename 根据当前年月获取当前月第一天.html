@@ -17,9 +17,9 @@
         th {
             background-color: #f2f2f2;
         }
-        .empty {
+        /* .empty {
             border: none;
-        }
+        } */
     </style>
 </head>
 <body>
@@ -78,7 +78,10 @@
     }
 
     function fnBtn() {
-        const yearMonth = '2025-04'; // 你可以根据需要修改这个值
+        let time = new Date();
+        let year = time.getFullYear();
+        let month = time.getMonth() + 1;
+        const yearMonth = `${year}-${month}`; // 你可以根据需要修改这个值
         const result = getMonthInfo(yearMonth);
         document.getElementById('result').innerText = `当前月的第一天是${result.firstDayOfWeek}，当月有${result.daysInMonth}天。`;
         document.getElementById('calendar').innerHTML = generateCalendar(yearMonth);

@@ -6,11 +6,19 @@
     <title>Document</title>
 </head>
 <body>
-    <input type="text" class="copytext">
-    <button onclick="copyText()">复制</button>
-    <input type="text">
-    <input type="text" title="禁止粘贴" oncopy="return false" onpaste="return false">
-    <input type="text" oncopy="copyfn()" title="禁止复制，给钱">
+    <div>
+        <input type="text" class="copytext">
+        <span>正常可复制的输入框</span>
+        <!-- <button onclick="copyText()">复制</button> -->
+    </div>
+    <div>
+        <input type="text" title="禁止粘贴" oncopy="return false" onpaste="return false">
+        <span>禁止复制的输入框</span>
+    </div>
+    <div>
+        <input type="text" oncopy="copyfn()" title="禁止复制，给钱">
+        <span>有版权问题的复制</span>
+    </div>
 </body>
 <script>
     function copyText() {

@@ -16,8 +16,7 @@
         getLocationButton.addEventListener('click', () => {
             if (navigator.geolocation) {
                 // 请求获取地理位置权限
-                navigator.geolocation.getCurrentPosition(
-                    (position) => {
+                navigator.geolocation.getCurrentPosition((position) => {
                         const latitude = position.coords.latitude;
                         const longitude = position.coords.longitude;
                         locationInfo.textContent = `纬度: ${latitude}, 经度: ${longitude}`;

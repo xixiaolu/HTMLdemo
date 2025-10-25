@@ -1,24 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Switch Slider Demo</title>
     <style>
-       .switch {
+        .switch {
             position: relative;
             display: inline-block;
             width: 60px;
             height: 34px;
         }
 
-       .switch input {
+        .switch input {
             opacity: 0;
             width: 0;
             height: 0;
         }
 
-       .slider {
+        .slider {
             position: absolute;
             cursor: pointer;
             top: 0;
@@ -26,12 +27,12 @@
             right: 0;
             bottom: 0;
             background-color: #ccc;
-            -webkit-transition:.4s;
-            transition:.4s;
+            -webkit-transition: .4s;
+            transition: .4s;
             border-radius: 20px;
         }
 
-       .slider:before {
+        .slider:before {
             position: absolute;
             content: "";
             height: 26px;
@@ -39,24 +40,25 @@
             left: 4px;
             bottom: 4px;
             background-color: white;
-            -webkit-transition:.4s;
-            transition:.4s;
+            -webkit-transition: .4s;
+            transition: .4s;
             border-radius: 20px;
         }
 
-        input:checked +.slider {
+        input:checked+.slider {
             background-color: #2196F3;
         }
 
-        input:focus +.slider {
+        input:focus+.slider {
             box-shadow: 0 0 1px #2196F3;
         }
 
-        input:checked +.slider:before {
+        input:checked+.slider:before {
             -webkit-transform: translateX(26px);
             -ms-transform: translateX(26px);
             transform: translateX(26px);
         }
+
         .box[title] {
             color: red;
         }
@@ -67,17 +69,18 @@
         <input type="checkbox" id="mySwitch">
         <span class="slider"></span>
     </label>
-    <span class="box" title="我我我我我">我我我我我我</span>
+    <span class="text">关</span>
     <script>
         const switchInput = document.getElementById("mySwitch");
-
-        switchInput.onchange = function() {
+        let text = document.getElementsByClassName('text')[0];
+        switchInput.onchange = function () {
             if (this.checked) {
-                console.log("Switch is ON");
+                text.innerHTML = "开"
             } else {
-                console.log("Switch is OFF");
+                text.innerHTML = "关"
             }
         }
     </script>
 </body>
+
 </html>
