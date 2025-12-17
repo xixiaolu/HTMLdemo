@@ -187,7 +187,7 @@
             }
         }, { passive: false });
 
-        // 鼠标拖拽滚动（移动端/桌面均可）
+        // 鼠标拖拽滚动（移动端/桌面均可） 横向拖动中事件
         let isDown = false, startX, scrollStart;
         scrollEl.addEventListener('mousedown', (e) => {
             isDown = true;
@@ -196,12 +196,16 @@
             scrollStart = scrollEl.scrollLeft;
             scrollEl.style.cursor = 'grabbing';
         });
+        // 横向滚定结束事件
         window.addEventListener('mouseup', () => {
+            console.log('我进来了1')
             isDown = false;
             scrollEl.style.cursor = '';
         });
+        // 双击图片横向滚动事件
         window.addEventListener('mousemove', (e) => {
             if (!isDown) return;
+            console.log('我进来了2')
             const x = e.pageX - scrollEl.offsetLeft;
             const walk = (x - startX) * 1; // 拖动速度系数
             scrollEl.scrollLeft = scrollStart - walk;
@@ -210,10 +214,12 @@
         // 触摸拖拽支持
         let touchStartX = 0, touchScrollLeft = 0;
         scrollEl.addEventListener('touchstart', (e) => {
+            console.log('e',e)
             touchStartX = e.touches[0].pageX;
             touchScrollLeft = scrollEl.scrollLeft;
         }, { passive: true });
         scrollEl.addEventListener('touchmove', (e) => {
+            console.log('e2',e)
             const dx = e.touches[0].pageX - touchStartX;
             scrollEl.scrollLeft = touchScrollLeft - dx;
         }, { passive: true });

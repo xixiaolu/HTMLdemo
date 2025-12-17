@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Mac 底部导航栏放大缩小（插件示例）</title>
+    <style>
+        :root {
+            --dock-height: 72px;
+            --dock-radius: 18px;
+            --dock-bg: rgba(255, 255, 255, 0.18);
+            --dock-blur: 12px;
+        }
+
+        html,
+        body {
+            height: 100%;
+            margin: 0;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto;
+        }
+
+        /* 页面示例内容，便于滚动观察效果 */
+        main {
+            min-height: 200vh;
+            padding: 40px;
+            background: linear-gradient(180deg, #f6fbff, #eef6ff);
+        }
+
+        h1 {
+            margin: 0 0 24px 0;
+            color: #0b2a44
+        }
+
+        /* Dock 容器 */
+        .dock-wrap {
+            position: fixed;
+            left: 50%;
+            bottom: 24px;
+            transform: translateX(-50%);
+            z-index: 9999;
+            pointer-events: auto;
+        }
+
+        .dock {
+            height: var(--dock-height);
+            padding: 10px 18px;
+            display: flex;
+            gap: 12px;
+            align-items: flex-end;
+            border-radius: var(--dock-radius);
+            background: linear-gradient(180deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.06));
+            box-shadow: 0 6px 30px rgba(6, 18, 36, 0.18);
+            backdrop-filter: blur(var(--dock-blur));
+            -webkit-backdrop-filter: blur(var(--dock-blur));
+            user-select: none;
+        }
+
+        /* Dock 项目 */
+        .dock-item {
+            width: 56px;
+            height: 56px;
+            display: inline-grid;
+            place-items: center;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.02);
+            transition: transform .18s cubic-bezier(.22, .9, .35, 1), box-shadow .18s;
+            will-change: transform;
+            box-shadow: 0 6px 18px rgba(6, 18, 36, 0.08);
+            cursor: pointer;
+            flex: 0 0 auto;
+        }
+
+        .dock-item img {
+            width: 40px;
+            height: 40px;
+            display: block;
+            pointer-events: none;
+        }
+
+        .dock-item:active {
+            transform: translateY(2px) scale(.98);
+        }
+
+        /* 轻微站位提示 */
+        .dock-item-label {
+            position: absolute;
+            bottom: calc(var(--dock-height) + 8px);
+            left: 50%;
+            transform: translateX(-50%);
+            padding: 6px 10px;
+            border-radius: 999px;
+            background: rgba(0, 0, 0, 0.65);
+            color: #fff;
+            font-size: 12px;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity .12s;
+        }
+
+        .dock-item:hover .dock-item-label {
+            opacity: 1;
+        }
+
+        /* 响应式：窄屏时缩小 dock */
+        @media (max-width:520px) {
+            .dock {
+                padding: 8px 10px;
+                gap: 8px;
+            }
+
+            .dock-item {
+                width: 48px;
+                height: 48px;
+                border-radius: 10px;
+            }
+
+            .dock-item img {
+                width: 32px;
+                height: 32px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <!-- <main>
+        <h1>Mac 底部导航栏放大缩小（插件示例）</h1>
+        <p>把鼠标移到 Dock 上，图标会根据距离发生放大（类似 macOS 放大效果）。</p>
+    </main> -->
+
+    <!-- Dock 结构：只需一个容器和若干 .dock-item -->
+    <div class="dock-wrap">
+        <div id="dock" class="dock" data-magnify>
+            <!-- 示例图标，替换为真实图片或 svg -->
+            <div class="dock-item" data-label="Finder"><img src="https://img.icons8.com/fluency/48/000000/mac-os.png"
+                    alt="">
+                <div class="dock-item-label">Finder</div>
+            </div>
+            <div class="dock-item" data-label="Safari"><img
+                    src="https://img.icons8.com/fluency/48/000000/internet--v1.png" alt="">
+                <div class="dock-item-label">Safari</div>
+            </div>
+            <div class="dock-item" data-label="Mail"><img src="https://img.icons8.com/fluency/48/000000/new-post.png"
+                    alt="">
+                <div class="dock-item-label">Mail</div>
+            </div>
+            <div class="dock-item" data-label="Photos"><img
+                    src="https://img.icons8.com/fluency/48/000000/camera--v1.png" alt="">
+                <div class="dock-item-label">Photos</div>
+            </div>
+            <div class="dock-item" data-label="App Store"><img
+                    src="https://img.icons8.com/fluency/48/000000/mac-app-store.png" alt="">
+                <div class="dock-item-label">App Store</div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        /**
+         * DockMagnifier - 一个轻量“插件”实现 macOS Dock 放大效果
+         * 用法：
+         *   new DockMagnifier(containerEl, { maxScale: 2, proximity: 140, easing:0.18 });
+         * 若容器上添加 data-magnify，可用自动初始化（见下方）
+         */
+        (function (window, document) {
+            function DockMagnifier(el, opt) {
+                if (!(this instanceof DockMagnifier)) return new DockMagnifier(el, opt);
+                this.el = (typeof el === 'string') ? document.querySelector(el) : el;
+                if (!this.el) throw new Error('Dock element not found');
+                this.items = Array.from(this.el.querySelectorAll('.dock-item'));
+                this.opts = Object.assign({ maxScale: 2.0, proximity: 140, easing: 0.18, baseScale: 1 }, opt || {});
+                this._bind();
+                this._initState();
+            }
+
+            DockMagnifier.prototype._initState = function () {
+                this.mouseX = null;
+                this.targetScales = new Array(this.items.length).fill(this.opts.baseScale);
+                this.currentScales = new Array(this.items.length).fill(this.opts.baseScale);
+                this.rafId = null;
+                this._animate();
+            };
+
+            DockMagnifier.prototype._bind = function () {
+                const rectHandler = () => { this.rect = this.el.getBoundingClientRect(); };
+                rectHandler();
+                window.addEventListener('resize', rectHandler, { passive: true });
+
+                // pointermove 支持鼠标和触摸（touch）
+                this.el.addEventListener('pointermove', (e) => {
+                    const x = e.clientX;
+                    this.mouseX = x - this.el.getBoundingClientRect().left;
+                    this._updateTargets();
+                }, { passive: true });
+
+                // 鼠标离开恢复默认
+                this.el.addEventListener('pointerleave', () => {
+                    this.mouseX = null;
+                    this._resetTargets();
+                });
+
+                // 支持点击效果（可自定义）
+                this.items.forEach((it, idx) => {
+                    it.addEventListener('click', () => {
+                        // 简单点击反馈：短暂缩放
+                        it.style.transition = 'transform .12s';
+                        it.style.transform = 'scale(' + (this.opts.maxScale * 0.95) + ')';
+                        setTimeout(() => { it.style.transition = 'transform .18s'; }, 140);
+                    });
+                });
+            };
+
+            DockMagnifier.prototype._updateTargets = function () {
+                const prox = this.opts.proximity;
+                this.items.forEach((it, i) => {
+                    // 计算 item 中心相对容器的 x
+                    const r = it.getBoundingClientRect();
+                    const cx = (r.left - this.el.getBoundingClientRect().left) + r.width / 2;
+                    const d = Math.abs(this.mouseX - cx);
+                    if (this.mouseX === null) {
+                        this.targetScales[i] = this.opts.baseScale;
+                    } else {
+                        const t = Math.max(0, 1 - (d / prox)); // 1..0
+                        // 平方缓和，得到更柔和曲线
+                        const scale = this.opts.baseScale + (this.opts.maxScale - this.opts.baseScale) * (t * t);
+                        this.targetScales[i] = Math.max(this.opts.baseScale, Math.min(this.opts.maxScale, scale));
+                    }
+                });
+            };
+
+            DockMagnifier.prototype._resetTargets = function () {
+                this.targetScales.fill(this.opts.baseScale);
+            };
+
+            DockMagnifier.prototype._animate = function () {
+                const ease = this.opts.easing;
+                let changed = false;
+                for (let i = 0; i < this.items.length; i++) {
+                    const cur = this.currentScales[i];
+                    const tgt = this.targetScales[i];
+                    const next = cur + (tgt - cur) * ease;
+                    if (Math.abs(next - cur) > 0.0001) changed = true;
+                    this.currentScales[i] = next;
+                    // 逐项设置 transform 与 translateY 联动（小位移模拟上浮）
+                    const ty = (next - 1) * -10; // 上浮像素
+                    this.items[i].style.transform = `translateY(${ty}px) scale(${next})`;
+                    // 可调整阴影/层级
+                    const z = Math.round(next * 100);
+                    this.items[i].style.zIndex = 1000 + z;
+                    this.items[i].style.boxShadow = `0 ${6 + (next - 1) * 20}px ${18 + (next - 1) * 40}px rgba(6,18,36,${0.08 + (next - 1) * 0.12})`;
+                }
+                // 如果仍在变化继续 rAF，否则继续 loop 以响应 pointer move later
+                this.rafId = window.requestAnimationFrame(this._animate.bind(this));
+            };
+
+            DockMagnifier.prototype.destroy = function () {
+                window.cancelAnimationFrame(this.rafId);
+                // 恢复样式
+                this.items.forEach(it => {
+                    it.style.transform = '';
+                    it.style.boxShadow = '';
+                    it.style.zIndex = '';
+                });
+            };
+
+            // 自动初始化：查找 data-magnify
+            document.addEventListener('DOMContentLoaded', () => {
+                const els = document.querySelectorAll('[data-magnify]');
+                els.forEach(el => {
+                    // eslint-disable-next-line no-new
+                    new DockMagnifier(el, {
+                        maxScale: 1.95,
+                        proximity: 140,
+                        easing: 0.18,
+                        baseScale: 1
+                    });
+                });
+            });
+
+            // 导出到全局，方便手动创建/销毁
+            window.DockMagnifier = DockMagnifier;
+
+        })(window, document);
+    </script>
+</body>
+
+</html>
