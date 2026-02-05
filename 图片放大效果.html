@@ -10,7 +10,7 @@
             height: 250px;
             position: relative;
             border: 1px solid #ccc;
-            margin: 40px;
+            /* margin: 40px; */
             display: inline-block;
         }
 
@@ -32,13 +32,13 @@
         }
 
         #big {
-            width: 200px;
-            height: 200px;
+            width: 300px;
+            height: 300px;
             border: 1px solid #007aff;
             overflow: hidden;
             position: absolute;
-            left: 460px;
-            top: 40px;
+            /* left: 460px;
+            top: 40px; */
             display: none;
         }
 
@@ -67,16 +67,18 @@
     const mask = document.getElementById('mask');
     const big = document.getElementById('big');
     const bigImg = document.getElementById('bigImg');
-
-    small.addEventListener('mouseenter', function () {
+    // 进入图层
+    small.addEventListener('mouseenter', ()=>{
         mask.style.display = 'block';
         big.style.display = 'block';
     });
-    small.addEventListener('mouseleave', function () {
+    // 移出图层
+    small.addEventListener('mouseleave', ()=>{
         mask.style.display = 'none';
         big.style.display = 'none';
     });
-    small.addEventListener('mousemove', function (e) {
+    // 在图层中移动事件
+    small.addEventListener('mousemove', (e)=>{
         const rect = small.getBoundingClientRect();
         let x = e.clientX - rect.left - mask.offsetWidth / 2;
         let y = e.clientY - rect.top - mask.offsetHeight / 2;
