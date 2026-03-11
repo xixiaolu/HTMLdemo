@@ -17,6 +17,7 @@ function createCard(value : Values,colors : Colors){
 }
 createCard('3','蓝')
 createCard('2','蓝');
+createCard('2','粉')
 
 
 let s : string = '123';

@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 100%;
+            height: 6px;
+            border-radius: 3%;
+            background-color: #e6e9ed;
+        }
+        .box-div{
+            /* width: 30%; */
+            height: 100%;
+            background-color: #06f;
+            transition: width .3s ease;
+        }
+
+    </style>
+</head>
+<body>
+    <div class="box">
+        <div class="box-div"></div>
+    </div>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+    <label for="">
+        <input type="checkbox" name="checkbox" id="">
+        已查看
+    </label>
+</body>
+<script>
+    let checkbox = document.querySelectorAll('input[type="checkbox"]');
+    console.log('-----',checkbox)
+    checkbox.forEach(item=>{
+        item.addEventListener('click',(e)=>{
+            console.log('e',e.target)
+        })
+    })
+    let boxDiv = document.getElementsByClassName('box-div')[0];
+    let width = 0;
+    setInterval(() => {
+        if(width == 100) width = 0;
+        width += 10;
+        boxDiv.style.width = `${width}%`;
+    }, 1000);
+</script>
+</html>
