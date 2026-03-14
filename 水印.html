@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        /* .input1::-webkit-input-placeholder {
+            color: red;
+        }
+        .input1::-moz-placeholder {
+            color: red;
+        }
+        .input1:-ms-input-placeholder {
+            color: red;
+        }
+        .input1::placeholder {
+            color: red;
+        } */
+        .input1::placeholder {
+            color: red;
+        }
+    </style>
+</head>
+<body>
+    <img src="" id="imageSrc" alt="">
+    <img id="watermarkedImage" alt="带水印的图片">
+    <input type="text" placeholder="xxxxx" class="input1">
+</body>
+<script>
+    // function createWatermarkSVG(text){
+    //     const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="200" height="200">
+    //         <text x="50%" y="50%" dy="0.35em" dominant-baseline="middle" text-anchor="middle" fill="rgba(0, 0, 0, 0.5)" font-size="20" transform="rotate(-30 100 100)">${text}</text></svg>`;
+    //     return `data:image/svg+xml;base64,${btoa(unescape(encodeURIComponent(svg)))}`;
+    // }
+    // const watermark = createWatermarkSVG('我是svg水印');
+    // document.body.style.backgroundImage = `url(${watermark})`;
+
+    function addWatchermark(imageSrc, watermarkText) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const image = new Image();
+        image.src = imageSrc;
+        image.onload = ()=>{
+            canvas.width = image.width;
+            const eight = image.height;
+            ctx.drawImage(image, 0, 0);
+            ctx.font = '30px Arial';
+            ctx.fillStyle = 'rgba(0, 0, 0, 0.5)';
+            ctx.fillText(watermarkText, image.width - ctx.measureText(watermarkText).width - 10, eight - 10);
+            const watermarkedImage = document.getElementById('watermarkedImage');
+            watermarkedImage.src = canvas.toDataURL('image/png')
+        }
+    }
+    const imageSrc = document.getElementById('imageSrc').src;
+    console.log('-----',imageSrc)
+    addWatchermark(imageSrc, '我是水印');
+
+
+</script>
+</html>
