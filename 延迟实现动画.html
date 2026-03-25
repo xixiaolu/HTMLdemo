@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .container{
+            margin-top: 30px;
+        }
+        .ball{
+            --delay : 0s;
+            width: 100px;
+            height: 100px;
+            background-color: red;
+            border-radius: 50%;
+            /* animation: move 2s linear infinite alternate; */
+            animation: move 1s linear forwards paused;
+            animation-delay: var(--delay);
+        }
+        @keyframes move {
+            50%{
+                transform: translateX(100px) scale(1.5);
+                background: #00c;
+            }
+            100%{
+                transform: translateX(200px) scale(1);
+                background: #0c0;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="ball">
+
+        </div>
+        <input type="range" min="0" max="1" step="0.01">
+    </div>
+</body>
+<script>
+    const ball = document.querySelector('.ball');
+    const input = document.querySelector('input');
+    function calc(){
+        ball.style.setProperty('--delay',-input.value + "s");
+    }
+    input.oninput = calc;
+    calc();
+</script>
+</html>

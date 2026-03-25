@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        .box{
+            width: 100%;
+            height: 2000px;
+            /* border: 1px solid #ccc; */
+            background: scroll;
+        }
+    </style>
+</head>
+<body>
+    <div class="box">
+
+    </div>
+</body>
+<script>
+    const options = {
+        root : null,  // 表示视口 也可指定某个节点
+        rootMargin : '0px', // 扩展或缩小视口范围（例如 '100px' 表示提前 100px 触发）
+        threshold: 0.1 // 触发回调的阈值 (0 ~ 1)。0.1 表示元素有 10% 可见时触发
+    }
+    const callback = (entries, observer) => {
+        entries.forEach(entry => {
+            console.log(entry.isIntersecting)
+        })
+    }
+
+    const observer = new IntersectionObserver(callback, options)
+
+    const target = document.querySelector('.box')
+    observer.observe(target)
+</script>
+</html>
