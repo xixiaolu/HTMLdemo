@@ -67,3 +67,27 @@ type Coordinates  = [number,number];
 type StringOrNumberArray = Array<string|number>
 
 const str : StringOrNumberArray = [123,'34335',true]
+
+
+// 定义接口出参
+interface ApiResponse {
+    code : number,
+    [key : string] : any;
+}
+let apiResponse : ApiResponse = {
+    code : 200,
+    data : {
+
+    },
+    message : 'success',
+}
+
+
+let obj = {
+    name : "张三",
+    age : 12,
+}
+type ObjKeys = keyof typeof obj;
+
+
+let key : ObjKeys = 'name';

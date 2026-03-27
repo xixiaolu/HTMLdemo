@@ -4,10 +4,16 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        .box1{
+            overflow: hidden;
+            visibility: hidden;
+        }
+    </style>
 </head>
 <body>
     我是父页面
-    <iframe src="./index2.html" frameborder="0"></iframe>
+    <iframe src="./index2.html" frameborder="0" class="box1"></iframe>
     <button onclick="fn()">点击我</button>
 </body>
 <script>
@@ -24,5 +30,14 @@
             scrollTop : res,
         },'*')
     }
+    function createFn(){
+        let iframe1 = document.createElement('iframe');
+        iframe1.className = "box1";
+        iframe1.src = "./index2.html";
+        let body = document.getElementsByTagName('body')[0];
+        console.log('body',body)
+        document.body.appendChild(iframe1);
+    }
+    createFn();
 </script>
 </html>
