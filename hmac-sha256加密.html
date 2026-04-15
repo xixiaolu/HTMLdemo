@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+</body>
+<script>
+/**
+ * 使用 Web Crypto API 生成 HMAC-SHA256 签名
+ * @param {string} secretKey - 密钥字符串
+ * @param {string} message - 需要签名的消息/数据
+ * @returns {Promise<string>} - 返回十六进制签名字符串
+ */
+async function generateHmacSha256(secretKey, message) {
+    // 1. 初始化 TextEncoder，用于将字符串转为二进制数据
+    const encoder = new TextEncoder();
+    
+    // 2. 导入密钥
+    // 将密钥字符串编码为 Uint8Array
+    const keyData = encoder.encode(secretKey);
+    const key = await crypto.subtle.importKey(
+        "raw",                           // 格式：原始字节
+        keyData,                         // 密钥数据
+        { name: "HMAC", hash: "SHA-256" }, // 算法配置
+        false,                           // 是否可导出（通常设为false以保证安全）
+        ["sign"]                         // 密钥用途
+    );
+
+    // 3. 执行签名
+    const messageData = encoder.encode(message);
+    const signatureBuffer = await crypto.subtle.sign("HMAC", key, messageData);
+
+    // 4. 将 ArrayBuffer 转换为 Hex 字符串
+    // 这一步是为了让签名可读，方便传输
+    const hashArray = Array.from(new Uint8Array(signatureBuffer));
+    const signatureHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+    
+    return signatureHex;
+}
+
+async function fn(){
+    const secret = "my-secret-key";
+    const payload = JSON.stringify({ id: 123, amount: 100 });
+    
+    try {
+        const signature = await generateHmacSha256(secret, payload);
+        console.log("HMAC-SHA256 签名:", signature);
+        // 你可以在这里将 signature 放入请求头发送给后端
+    } catch (error) {
+        console.error("签名生成失败:", error);
+    }
+}
+fn();
+</script>
+</html>

@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI 调查助手 - 报告生成失败</title>
+    <style>
+        /* 全局重置 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: "Microsoft YaHei", "Segoe UI", sans-serif;
+            /* 模拟深色背景环境 */
+            background-color: #0f172a;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+        }
+
+        /* 装饰性的背景光效（模拟图片中的科技氛围） */
+        body::before {
+            content: '';
+            position: absolute;
+            width: 150%;
+            height: 150%;
+            background: radial-gradient(circle, rgba(30, 58, 138, 0.2) 0%, rgba(15, 23, 42, 0) 70%);
+            z-index: 0;
+        }
+
+        /* 主卡片容器 */
+        .card-container {
+            position: relative;
+            z-index: 1;
+            width: 600px;
+            height: 360px;
+            /* 卡片背景：淡淡的灰蓝色渐变 */
+            background: linear-gradient(135deg, #e2e8f0 0%, #f1f5f9 100%);
+            border-radius: 12px;
+            /* 模拟图片中的复杂边框结构 */
+            border: 1px solid #94a3b8;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            overflow: hidden;
+            box-shadow: 0 0 20px rgba(0, 150, 255, 0.3);
+        }
+
+        /* 顶部标签 "AI生成" */
+        .tag-ai {
+            position: absolute;
+            top: 0;
+            left: 0;
+            background: rgba(15, 23, 42, 0.8);
+            color: #fff;
+            padding: 4px 12px;
+            font-size: 14px;
+            border-bottom-right-radius: 8px;
+            z-index: 2;
+        }
+
+        /* 顶部标题 "AI调查助手" */
+        .header-title {
+            position: absolute;
+            top: 15px;
+            font-size: 20px;
+            font-weight: bold;
+            color: #1e3a8a;
+            letter-spacing: 2px;
+            text-shadow: 0 0 5px rgba(255, 255, 255, 0.8);
+            z-index: 2;
+        }
+
+        /* 科技感的边框装饰线条 */
+        .border-decoration {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            /* 使用伪元素模拟复杂的切角边框 */
+            box-shadow: inset 0 0 0 2px #3b82f6;
+            clip-path: polygon(
+                20px 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%,
+                0 100%, 0 20px
+            );
+            opacity: 0.6;
+        }
+
+        /* 角落的装饰块 */
+        .corner-deco {
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            border: 3px solid #3b82f6;
+            opacity: 0.8;
+        }
+        .tl { top: 0; left: 0; border-right: none; border-bottom: none; }
+        .tr { top: 0; right: 0; border-left: none; border-bottom: none; }
+        .bl { bottom: 0; left: 0; border-right: none; border-top: none; }
+        .br { bottom: 0; right: 0; border-left: none; border-top: none; }
+
+        /* 主要内容文字 */
+        .main-text {
+            font-size: 28px;
+            color: #1e293b;
+            margin-bottom: 30px;
+            font-weight: 500;
+            letter-spacing: 1px;
+        }
+
+        /* 刷新按钮区域 */
+        .refresh-btn {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 2px solid #3b82f6;
+            background: rgba(255, 255, 255, 0.6);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 15px rgba(59, 130, 246, 0.4);
+            position: relative;
+        }
+
+        /* 按钮内的图标 */
+        .refresh-icon {
+            width: 36px;
+            height: 36px;
+            border: 4px solid #3b82f6;
+            border-top-color: transparent;
+            border-radius: 50%;
+            animation: spin 2s linear infinite;
+        }
+
+        /* 按钮外围的装饰圈 */
+        .refresh-btn::after {
+            content: '';
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            border: 1px dashed #60a5fa;
+            border-radius: 50%;
+            animation: spin-reverse 10s linear infinite;
+        }
+
+        /* 左右箭头按钮 */
+        .nav-arrow {
+            position: absolute;
+            width: 30px;
+            height: 50px;
+            background: rgba(255, 255, 255, 0.2);
+            top: 50%;
+            transform: translateY(-50%);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+            border-radius: 4px;
+            user-select: none;
+        }
+        .nav-left { left: 20px; }
+        .nav-right { right: 20px; }
+
+        /* 动画定义 */
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            0% { transform: rotate(360deg); }
+            100% { transform: rotate(0deg); }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- 左右切换箭头 -->
+    <!-- <div class="nav-arrow nav-left">&lt;</div>
+    <div class="nav-arrow nav-right">&gt;</div> -->
+
+    <!-- 主卡片 -->
+    <div class="card-container">
+        <!-- 左上角标签 -->
+        <!-- <div class="tag-ai">AI 生成</div> -->
+
+        <!-- 顶部标题 -->
+        <div class="header-title">AI调查助手</div>
+
+        <!-- 边框装饰角 -->
+        <div class="corner-deco tl"></div>
+        <div class="corner-deco tr"></div>
+        <div class="corner-deco bl"></div>
+        <div class="corner-deco br"></div>
+
+        <!-- 内容文字 -->
+        <div class="main-text">报告生成失败</div>
+
+        <!-- 刷新按钮 -->
+        <div class="refresh-btn">
+            <div class="refresh-icon"></div>
+        </div>
+    </div>
+
+</body>
+</html>
