@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>我们要结婚啦 - 婚礼邀请函</title>
+    <style>
+        :root {
+            --primary-red: #D93636;
+            --dark-red: #8B0000;
+            --gold: #D4AF37;
+            --text-dark: #4A3B2A;
+            --bg-cream: #FFFBF0;
+            --white: #ffffff;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        body {
+            font-family: "Songti SC", "SimSun", serif;
+            background-color: var(--bg-cream);
+            color: var(--text-dark);
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 100%;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+            position: relative;
+        }
+
+        .hero {
+            height: 100vh;
+            background: linear-gradient(135deg, var(--primary-red) 0%, var(--dark-red) 100%);
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: var(--gold);
+            padding: 20px;
+        }
+
+        .double-happiness {
+            font-size: 5rem;
+            color: var(--gold);
+            font-weight: bold;
+            margin-bottom: 20px;
+            font-family: "LiSu", serif;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: scaleIn 1.5s ease-out;
+        }
+
+        .names {
+            font-size: 2.5rem;
+            margin: 20px 0;
+            letter-spacing: 5px;
+            color: #fff;
+            animation: fadeInDown 1.5s ease-out;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        .date-main {
+            font-size: 1.2rem;
+            border-top: 1px solid var(--gold);
+            border-bottom: 1px solid var(--gold);
+            padding: 10px 20px;
+            display: inline-block;
+            animation: fadeInUp 1.5s ease-out 0.5s backwards;
+            background: rgba(0,0,0,0.2);
+            border-radius: 4px;
+        }
+
+        .btn-scroll {
+            margin-top: 60px;
+            color: var(--gold);
+            font-size: 1rem;
+            cursor: pointer;
+            animation: bounce 2s infinite;
+            letter-spacing: 2px;
+        }
+
+        section { 
+            padding: 60px 20px; 
+            text-align: center; 
+            position: relative; 
+        }
+        
+        h2 {
+            font-size: 2rem;
+            color: var(--primary-red);
+            margin-bottom: 40px;
+            font-family: "LiSu", serif;
+            position: relative;
+            display: inline-block;
+        }
+        h2::after {
+            content: '';
+            display: block;
+            width: 60px;
+            height: 3px;
+            background: var(--gold);
+            margin: 15px auto 0;
+        }
+
+        .timeline-container {
+            position: relative;
+            padding: 20px 0;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        
+        .timeline-container::before {
+            content: '';
+            position: absolute;
+            left: 50%;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: var(--gold);
+            transform: translateX(-50%);
+        }
+
+        .timeline-item {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 60px;
+            position: relative;
+            opacity: 0;
+            transform: translateY(50px);
+            padding: 0 10px;
+        }
+
+        .timeline-dot {
+            position: absolute;
+            left: 50%;
+            width: 16px;
+            height: 16px;
+            background: var(--white);
+            border: 3px solid var(--primary-red);
+            border-radius: 50%;
+            transform: translateX(-50%);
+            z-index: 2;
+            box-shadow: 0 0 10px rgba(217, 54, 54, 0.3);
+        }
+
+        .timeline-left { flex-direction: row; }
+        .timeline-right { flex-direction: row-reverse; }
+
+        .timeline-content {
+            width: 45%;
+            padding: 20px;
+            background: #fff;
+            border: 1px solid var(--gold);
+            border-radius: 8px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+        }
+        
+        .timeline-content:hover {
+            transform: scale(1.03);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4);
+            z-index: 10;
+        }
+
+        .timeline-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 4px;
+            margin-bottom: 15px;
+        }
+
+        .timeline-date {
+            color: var(--primary-red);
+            font-weight: bold;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            display: block;
+            font-family: "LiSu", serif;
+        }
+
+        .timeline-desc {
+            font-size: 1rem;
+            color: #555;
+        }
+
+        .info-card {
+            background: #fff;
+            border: 2px solid var(--gold);
+            padding: 40px 20px;
+            margin-top: 20px;
+            position: relative;
+            opacity: 0;
+            transform: scale(0.9);
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            border-radius: 10px;
+            box-shadow: 0 10px 30px rgba(217, 54, 54, 0.15);
+        }
+        
+        .info-card::after {
+            content: '囍';
+            position: absolute;
+            top: -20px; left: 50%;
+            transform: translateX(-50%);
+            background: #fff;
+            color: var(--primary-red);
+            padding: 0 15px;
+            font-size: 2rem;
+            font-family: "LiSu", serif;
+        }
+
+        .btn-nav {
+            display: inline-block;
+            margin-top: 25px;
+            padding: 12px 40px;
+            background: var(--primary-red);
+            color: #fff;
+            text-decoration: none;
+            border-radius: 30px;
+            font-size: 1.1rem;
+            box-shadow: 0 5px 15px rgba(217, 54, 54, 0.4);
+            transition: all 0.3s;
+        }
+        .btn-nav:active { transform: scale(0.95); }
+
+        .countdown {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            margin: 40px 0;
+            opacity: 0;
+        }
+        .cd-item {
+            background: var(--primary-red);
+            color: #fff;
+            padding: 15px 10px;
+            min-width: 70px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(217, 54, 54, 0.3);
+        }
+        .cd-num { font-size: 1.8rem; font-weight: bold; display: block; }
+        .cd-label { font-size: 0.8rem; text-transform: uppercase; }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            background: #fdfdfd;
+            font-size: 1rem;
+        }
+        .btn-submit {
+            width: 100%;
+            padding: 18px;
+            background: var(--gold);
+            color: var(--dark-red);
+            border: none;
+            font-weight: bold;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(212, 175, 55, 0.4);
+            cursor: pointer;
+        }
+
+        footer {
+            padding: 50px 20px;
+            text-align: center;
+            background: var(--primary-red);
+            color: var(--gold);
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {transform: translateY(0);}
+            40% {transform: translateY(-10px);}
+            60% {transform: translateY(-5px);}
+        }
+        @keyframes scaleIn { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+        @keyframes fadeInDown { from { transform: translateY(-20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+        @keyframes fadeInUp { from { transform: translateY(20px); opacity: 0; } to { transform: translateY(0); opacity: 1; } }
+
+        .animate-up { transition: all 0.8s ease-out; opacity: 1 !important; transform: translateY(0) !important; }
+        .animate-scale { transition: all 0.8s ease-out; opacity: 1 !important; transform: scale(1) !important; }
+
+        @media (max-width: 600px) {
+            .timeline-container::before { left: 20px; }
+            .timeline-dot { left: 20px; }
+            .timeline-item { flex-direction: row !important; padding-left: 50px; justify-content: flex-start; }
+            .timeline-content { width: 100%; }
+            .names { font-size: 2rem; }
+            .double-happiness { font-size: 4rem; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header class="hero">
+        <div class="double-happiness">囍</div>
+        <p style="letter-spacing: 2px; font-size: 1rem; opacity: 0.9;">THE WEDDING OF</p>
+        <div class="names">李雷 & 韩梅梅</div>
+        <div class="date-main">2026 . 05 . 20</div>
+        <div id="scroll-btn" class="btn-scroll">▼ 向下翻阅</div>
+    </header>
+
+    <section id="story">
+        <h2>我们的故事</h2>
+        <div class="timeline-container">
+            <div class="timeline-item timeline-left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <img src="您的照片1.jpg" alt="初次相遇" class="timeline-img">
+                    <span class="timeline-date">2022.05.20</span>
+                    <p class="timeline-desc">初次相遇，一眼万年。<br>在朋友的聚会上，我们交换了第一句话。</p>
+                </div>
+            </div>
+            <div class="timeline-item timeline-right">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <img src="您的照片2.jpg" alt="甜蜜旅行" class="timeline-img">
+                    <span class="timeline-date">2023.10.01</span>
+                    <p class="timeline-desc">第一次长途旅行，<br>看过了山川湖海，确认了彼此的眼神。</p>
+                </div>
+            </div>
+            <div class="timeline-item timeline-left">
+                <div class="timeline-dot"></div>
+                <div class="timeline-content">
+                    <img src="您的照片3.jpg" alt="求婚现场" class="timeline-img">
+                    <span class="timeline-date">2025.12.25</span>
+                    <p class="timeline-desc">在这个浪漫的圣诞夜，<br>你单膝跪地，我说了"我愿意"。</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="details" style="background: #fffaf0;">
+        <h2>婚礼邀约</h2>
+        <div class="info-card">
+            <div style="margin-bottom: 25px;">
+                <span style="display:block; font-size:1.6rem; color:var(--primary-red); font-weight:bold;">2026年5月20日</span>
+                <span>农历 四月初四 星期三</span>
+            </div>
+            <div style="margin-bottom: 25px;">
+                <span style="display:block; font-size:1.6rem; color:var(--primary-red); font-weight:bold;">18:08</span>
+                <span>典礼开始 (17:30 恭候)</span>
+            </div>
+            <hr style="border: 0; border-top: 1px dashed #ddd; margin: 25px 0;">
+            <div>
+                <h3 style="color: var(--primary-red); margin-bottom: 10px; font-size: 1.4rem;">香格里拉大酒店</h3>
+                <p>二楼 · 宴会厅A</p>
+                <p style="font-size: 0.9rem; color: #666; margin-top: 5px;">杭州市西湖区曙光路128号</p>
+                <a href="https://ditu.amap.com/" class="btn-nav">导航至酒店</a>
+            </div>
+        </div>
+        <div class="countdown" id="countdown"></div>
+    </section>
+
+    <section id="rsvp">
+        <h2>出席回执</h2>
+        <p style="margin-bottom: 30px; color: #666; font-size: 1.1rem;">为了给您提供更好的宴席体验，请告知我们您的出席情况</p>
+        <form onsubmit="submitForm(event)" style="max-width: 90%; margin: 0 auto;">
+            <input type="text" class="form-input" placeholder="您的姓名" required>
+            <input type="tel" class="form-input" placeholder="联系电话" required>
+            <select class="form-input">
+                <option value="1">我将出席 (1人)</option>
+                <option value="2">我将出席 (2人)</option>
+                <option value="0">遗憾缺席</option>
+            </select>
+            <button type="submit" class="btn-submit">提交回执</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="double-happiness" style="font-size: 3rem; margin-bottom: 10px;">囍</div>
+        <p>期待您的光临</p>
+        <p style="font-size: 0.9rem; margin-top: 10px; opacity: 0.8;">李雷 & 韩梅梅 敬邀</p>
+    </footer>
+</div>
+
+<script>
+    const scrollBtn = document.getElementById('scroll-btn');
+    const detailsSection = document.getElementById('details');
+
+    scrollBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        const targetPosition = detailsSection.offsetTop - 20;
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 2000;
+        let startTime = null;
+
+        function animation(currentTime) {
+            if (startTime === null) startTime = currentTime;
+            const timeElapsed = currentTime - startTime;
+            const run = easeInOutCubic(timeElapsed, startPosition, distance, duration);
+            window.scrollTo(0, run);
+            if (timeElapsed < duration) requestAnimationFrame(animation);
+        }
+        function easeInOutCubic(t, b, c, d) {
+            t /= d / 2;
+            if (t < 1) return c / 2 * t * t * t + b;
+            t -= 2;
+            return c / 2 * (t * t * t + 2) + b;
+        }
+        requestAnimationFrame(animation);
+    });
+
+    function updateCountdown() {
+        const weddingDate = new Date('2026-05-20T18:00:00').getTime();
+        const now = new Date().getTime();
+        const distance = weddingDate - now;
+
+        const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+        const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+
+        const countdownEl = document.getElementById('countdown');
+        if (distance > 0) {
+            countdownEl.innerHTML = `
+                <div class="cd-item"><span class="cd-num">${days}</span><span class="cd-label">天</span></div>
+                <div class="cd-item"><span class="cd-num">${hours}</span><span class="cd-label">时</span></div>
+                <div class="cd-item"><span class="cd-num">${minutes}</span><span class="cd-label">分</span></div>
+            `;
+            countdownEl.classList.add('animate-up');
+        }
+    }
+    setInterval(updateCountdown, 1000);
+    updateCountdown();
+
+    const observerOptions = { threshold: 0.15 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                if (entry.target.classList.contains('timeline-item')) {
+                    entry.target.classList.add('animate-up');
+                }
+                if (entry.target.classList.contains('info-card')) {
+                    entry.target.classList.add('animate-scale');
+                }
+                if (entry.target.classList.contains('countdown')) {
+                    entry.target.classList.add('animate-up');
+                }
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll('.timeline-item, .info-card, .countdown').forEach((el) => {
+        observer.observe(el);
+    });
+
+    function submitForm(e) {
+        e.preventDefault();
+        alert('回执已收到！非常期待您的到来！');
+    }
+</script>
+
+</body>
+</html>
