@@ -9,6 +9,7 @@
     <input type="text">
 </body>
 <script>
+    // 惰性函数：第一次调用时会进行特征检测，之后会重写函数体，使得后续调用不需要再进行特征检测
     function copyText(text){
         if(navigator.clipboard){
             copyText = (text)=>{
