@@ -23,6 +23,33 @@
     </style>
 </head>
 <body>
+    <select name="" id="year">
+        <option value="2016">2016</option>
+        <option value="2017">2017</option>
+        <option value="2018">2018</option>
+        <option value="2019">2019</option>
+        <option value="2020">2020</option>
+        <option value="2021">2021</option>
+        <option value="2022">2022</option>
+        <option value="2023">2023</option>
+        <option value="2024">2024</option>
+        <option value="2025">2025</option>
+        <option value="2026">2026</option>
+    </select>
+    <select name="" id="month">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+        <option value="10">10</option>
+        <option value="11">11</option>
+        <option value="12">12</option>
+    </select>
     <button onclick="fnBtn()">点我</button>
     <p id="result"></p>
     <div id="calendar"></div>
@@ -78,10 +105,12 @@
     }
 
     function fnBtn() {
+        let oldYear = document.getElementById('year').value;
+        let oldMonth = document.getElementById('month').value;
         let time = new Date();
         let year = time.getFullYear();
         let month = time.getMonth() + 1;
-        const yearMonth = `${year}-${month}`; // 你可以根据需要修改这个值
+        const yearMonth = `${oldYear}-${oldMonth}`; // 你可以根据需要修改这个值
         const result = getMonthInfo(yearMonth);
         document.getElementById('result').innerText = `当前月的第一天是${result.firstDayOfWeek}，当月有${result.daysInMonth}天。`;
         document.getElementById('calendar').innerHTML = generateCalendar(yearMonth);

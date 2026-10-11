@@ -6,63 +6,111 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
-        *{
+        * {
             margin: 0;
             padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            background: #0b1020;
+        }
+
+        body {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        canvas {
+            display: block;
+            width: 100vw;
+            height: 50vh;
+            background: linear-gradient(180deg, #07111d 0%, #0e1b2a 100%);
+        }
+
+        audio {
+            width: min(700px, 90vw);
         }
     </style>
 </head>
 
 <body>
     <canvas></canvas>
-    <!-- <audio src="./谁是宝藏歌手-青鸟 (Ice Paper-房东的猫-陈婧霏-邓见超) (谁是宝藏歌手 第13期)(蓝光).mp3"></audio> -->
     <audio src="./音频/奢香夫人 (Live)-凤凰传奇.mp3" controls></audio>
 </body>
 <script>
-
     const audioEle = document.querySelector('audio');
     const cvs = document.querySelector('canvas');
     const ctx = cvs.getContext('2d');
+
     function initCvs() {
-        cvs.width = window.innerWidth * devicePixelRatio;
-        cvs.height = (window.innerHeight / 2) * devicePixelRatio;
+        const dpr = window.devicePixelRatio || 1;
+        const width = window.innerWidth;
+        const height = window.innerHeight * 0.5;
+
+        cvs.width = Math.floor(width * dpr);
+        cvs.height = Math.floor(height * dpr);
+        cvs.style.width = `${width}px`;
+        cvs.style.height = `${height}px`;
+        ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     }
+
     initCvs();
+    window.addEventListener('resize', initCvs);
+
     let isInit = false;
-    let analyser = null, buffer = null;
-    audioEle.addEventListener('play', () => {
+    let analyser = null;
+    let buffer = null;
+
+    audioEle.addEventListener('play', async () => {
         if (isInit) return;
-        const audioCtx = new AudioContext(); // 创建音频上下文
-        const source = audioCtx.createMediaElementSource(audioEle); // 将音频元素作为音频源
-        analyser = audioCtx.createAnalyser(); // 创建分析器节点
-        source.connect(analyser); // 将音频源连接到分析器
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (audioCtx.state === 'suspended') {
+            await audioCtx.resume();
+        }
+
+        const source = audioCtx.createMediaElementSource(audioEle);
+        analyser = audioCtx.createAnalyser();
+
+        source.connect(analyser);
         analyser.fftSize = 512;
-        buffer = new Uint8Array(analyser.frequencyBinCount);  // 类型化数组 用于保存分析数据
-        analyser.connect(audioCtx.destination);  // 将分析器连接到音频上下文的输出节点
+        buffer = new Uint8Array(analyser.frequencyBinCount);
+        analyser.connect(audioCtx.destination);
+
         isInit = true;
-    })
+    });
+
     function draw() {
         requestAnimationFrame(draw);
-        if (!isInit) return;
-        const { width, height } = cvs;
-        ctx.clearRect(0, 0, width, height);
-        analyser.getByteFrequencyData(buffer); // 获取频率数据并存储在buffer中
-        const len = buffer.length / 2.5;  // 频率数据的长度通常是分析器节点的频率二进制数的一半
-        const count = len * 2;  // 绘制的柱状图数量 2倍
-        const barWidth = width / count; // 每个柱状图的宽度
-        ctx.fillStyle = '#78c5f7'; // 设置柱状图颜色
-        for (let i = 0; i < len; i++) {
-            const v = buffer[i];
-            const barHeight = (v / 255) * height; // 将频率值映射到画布高度
-            const x1 = i * barWidth + width / 2; // 计算柱状图的x坐标
-            const x2 = width / 2 - (i + 1) * barWidth; // 计算对称柱状图的x坐标
-            const y = height - barHeight;
-            ctx.fillStyle = `hsl(${i / len * 360}, 100%, 50%)`; // 设置柱状图颜色，使用HSL色彩模式根据频率值调整颜色
-            ctx.fillRect(x1, y, barWidth - 2, barHeight); // 绘制频率条
-            ctx.fillRect(x2, y, barWidth - 2, barHeight); // 绘制频率条
+        if (!isInit || !analyser || !buffer) return;
 
+        const width = cvs.clientWidth;
+        const height = cvs.clientHeight;
+        ctx.clearRect(0, 0, width, height);
+        analyser.getByteFrequencyData(buffer);
+
+        const dataLength = Math.min(Math.floor(buffer.length * 0.5), 120);
+        const barWidth = width / (dataLength * 2);
+
+        for (let i = 0; i < dataLength; i++) {
+            const v = buffer[i];
+            const barHeight = (v / 255) * height;
+            const x1 = width / 2 + i * barWidth;
+            const x2 = width / 2 - (i + 1) * barWidth;
+            const y = height - barHeight;
+
+            ctx.fillStyle = `hsl(${(i / dataLength) * 360}, 100%, 60%)`;
+            ctx.fillRect(x1, y, Math.max(barWidth - 2, 1), barHeight);
+            ctx.fillRect(x2, y, Math.max(barWidth - 2, 1), barHeight);
         }
     }
+
     draw();
 </script>
 
